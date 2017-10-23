@@ -4,7 +4,7 @@ import os
 from core.GZNB_config import configInfo
 
 def execDB(SQL):
-    conn = pymysql.connect(host=configInfo(0,'').get('DBInfo','host'), port=int(configInfo(0,'').get('DBInfo','port')), user=configInfo(0,'').get('DBInfo','user'), passwd=configInfo(0,'').get('DBInfo','passwd'), db=configInfo(0,'').get('DBInfo','db'), charset='utf8')
+    conn = pymysql.connect(host=configInfo().readEnv().get('DBInfo','host'), port=int(configInfo().readEnv().get('DBInfo','port')), user=configInfo().readEnv().get('DBInfo','user'), passwd=configInfo().readEnv().get('DBInfo','passwd'), db=configInfo().readEnv().get('DBInfo','db'), charset='utf8')
     cursor = conn.cursor()
     cursor.execute(SQL)
     conn.commit()
@@ -12,7 +12,7 @@ def execDB(SQL):
     conn.close()
 
 def exec_db_with_para(sql, params):
-    conn = pymysql.connect(host=configInfo(0,'').get('DBInfo','host'), port=int(configInfo(0,'').get('DBInfo','port')), user=configInfo(0,'').get('DBInfo','user'), passwd=configInfo(0,'').get('DBInfo','passwd'), db=configInfo(0,'').get('DBInfo','db'), charset='utf8')
+    conn = pymysql.connect(host=configInfo().readEnv().get('DBInfo','host'), port=int(configInfo().readEnv().get('DBInfo','port')), user=configInfo().readEnv().get('DBInfo','user'), passwd=configInfo().readEnv().get('DBInfo','passwd'), db=configInfo().readEnv().get('DBInfo','db'), charset='utf8')
     cursor = conn.cursor()
     cursor.execute(sql, params)
     conn.commit()

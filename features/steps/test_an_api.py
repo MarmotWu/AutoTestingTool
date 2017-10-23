@@ -41,7 +41,7 @@ def set_api_body(context, api_body):
 
 @given('API的body来自测试数据文件{config_file_name}中{section}节点的{key}关键字')
 def set_api_body_from_config(context, config_file_name, section, key):
-    context.request.set_body(configInfo(1,config_file_name).get(section,key))
+    context.request.set_body(configInfo(config_file_name).readTestData().get(section,key))
 
 @given('将API的body中的变量{parameter}赋值为{value}')
 def set_api_body_from_config(context, parameter, value):
@@ -68,14 +68,14 @@ def set_api_cookie(context, cookie_name, parameter):
 
 @given('我要测试一个API,从数据文件[{config_file_name}]的节点[{Section}]获取参数,测试场景是[{Scenario}]')
 def getParameter(context,Section,config_file_name,Scenario):
-    URL =configInfo(1,config_file_name).get(Section,'URL')
+    URL =configInfo(config_file_name).readTestData().get(Section,'URL')
     if 'http'.upper() not in str(URL).upper():
-        envinfo = configInfo(0,'').get('test_env','env')
-        URLInfo = configInfo(0,'').get(envinfo,'frontapi')
+        envinfo = configInfo().readEnv().get('test_env','env')
+        URLInfo = configInfo().readEnv().get(envinfo,'frontapi')
         URL = r'http://'+URLInfo+URL
-    Method = configInfo(1,config_file_name).get(Section,'Method')
-    Body = configInfo(1,config_file_name).get(Section,'Body')
-    Headers =configInfo(1,config_file_name).get(Section,'Headers')
+    Method = configInfo(config_file_name).readTestData().get(Section,'Method')
+    Body = configInfo(config_file_name).readTestData().get(Section,'Body')
+    Headers =configInfo(config_file_name).readTestData().get(Section,'Headers')
     context.request.set_url(URL)
     context.request.set_method(Method)
     context.request.set_body(Body)
@@ -83,7 +83,7 @@ def getParameter(context,Section,config_file_name,Scenario):
 
 @given('DB初始化，从[{Section}]获取SQL语句执行,测试数据文件来自于[{config_file_name}]')
 def initializationDB(context,config_file_name,Section):
-    SQL = configInfo(1,config_file_name).get(Section,'InitSQL')
+    SQL = configInfo(config_file_name).readTestData().get(Section,'InitSQL')
     core.test_case_executer.execDB(SQL)
 
 @when('我调用了api')
